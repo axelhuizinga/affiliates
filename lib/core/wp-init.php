@@ -841,10 +841,32 @@ add_action( 'init', 'affiliates_init' );
  * Loads the plugin's translations.
  */
 function affiliates_init() {
+	global $l10n;
 	load_plugin_textdomain( 'affiliates', null, AFFILIATES_PLUGIN_NAME . '/lib/core/languages' );
 	if ( class_exists( 'Affiliates_Affiliate' ) && method_exists( 'Affiliates_Affiliate', 'register_attribute_filter' ) ) {
+		edump('oooops');
 		Affiliates_Affiliate::register_attribute_filter( 'affiliates_attribute_filter' );
 	}
+	else{
+		$ikeys = array_keys($l10n);
+
+		edump(print_r($ikeys,1));
+		if(array_key_exists('affiliates',$l10n)){
+			/*if(array_key_exists('entries', $l10n->affiliates)){
+				edump(print_r($l10n['affiliates']['entries']),1);
+			}*/
+			#edump(print_r(get_object_vars($l10n['affiliates']),1));
+			edump(print_r(array_keys($l10n['affiliates']->entries),1));
+			if(array_key_exists('First Name', $l10n['affiliates']->entries)){
+				edump(print_r($l10n['affiliates']->entries['First Name'],1));
+			}
+		}
+		#edump(print_r($l10n,1));
+	}
+	/*load_plugin_textdomain( 'affiliates', null, AFFILIATES_PLUGIN_NAME . '/lib/core/languages' );
+	if ( class_exists( 'Affiliates_Affiliate' ) && method_exists( 'Affiliates_Affiliate', 'register_attribute_filter' ) ) {
+		Affiliates_Affiliate::register_attribute_filter( 'affiliates_attribute_filter' );
+	}*/
 	add_action( 'after_plugin_row_' . plugin_basename( AFFILIATES_FILE ), 'affiliates_after_plugin_row', 10, 3 );
 }
 
